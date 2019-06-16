@@ -388,6 +388,7 @@ module RSpotify
     #           playlist.replace_tracks!(tracks)
     #           playlist.tracks.map(&:name) #=> ["Somebody That I Used To Know", "Do I Wanna Know?"]
     def replace_tracks!(tracks)
+      track_uris = nil
       if tracks.first.is_a? String
         track_uris = tracks.join(',')
       else
