@@ -145,8 +145,10 @@ module RSpotify
     #           recently_played = user.recently_played
     #           recently_played.size       #=> 20
     #           recently_played.first.name #=> "Ice to Never"
-    def recently_played(limit: 20)
+    def recently_played(limit: 20, before: nil, after: nil)
       url = "me/player/recently-played?limit=#{limit}"
+      url << "&before=#{before}" if before
+      url << "&after=#{after}" if after
       response = RSpotify.resolve_auth_request(@id, url)
       return response if RSpotify.raw_response
 
