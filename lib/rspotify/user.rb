@@ -149,6 +149,7 @@ module RSpotify
       url = "me/player/recently-played?limit=#{limit}"
       url << "&before=#{before}" if before
       url << "&after=#{after}" if after
+      Rails.logger.warn("LOGGER: #{url}")
       response = RSpotify.resolve_auth_request(@id, url)
       return response if RSpotify.raw_response
 
