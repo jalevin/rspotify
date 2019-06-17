@@ -12,7 +12,7 @@ module RSpotify
   VERBS         = %w[get post put delete].freeze
 
   class << self
-    attr_accessor :raw_response
+    attr_accessor :raw_response, :retry_on_too_many_requests
     attr_reader :client_token
 
     # Authenticates access to restricted data. Requires {https://developer.spotify.com/my-applications user credentials}
@@ -75,6 +75,18 @@ module RSpotify
         headers['Authorization'] = "Bearer #{@client_token}"
 
         response = retry_connection(verb, url, params)
+      rescue RestClient::TooManyRequests => e
+        sleep_time = if e.response.headers[:retry_after].present?
+                       (e.response.headers[:retry_after]).to_i.seconds + 0.5
+                     else
+                       0.5
+                     end
+        puts "Got 'too many requests error', retrying in #{sleep_time} seconds."
+        if retry_on_too_many_requests
+          sleep(sleep_time)
+          retry
+        end
+        raise RestClient::TooManyRequests
       end
 
       return response if raw_response
