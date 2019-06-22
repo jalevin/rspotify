@@ -332,7 +332,7 @@ module RSpotify
     #           tracks = RSpotify::Track.search('Know')
     #           user.saved_tracks?(tracks) #=> [true, false, true...]
     def saved_tracks?(tracks)
-      tracks_ids = tracks.map(&:id)
+      #tracks_ids = tracks.map(&:id)
       url = "me/tracks/contains?ids=#{tracks_ids.join ','}"
       User.oauth_get(@id, url)
     end
