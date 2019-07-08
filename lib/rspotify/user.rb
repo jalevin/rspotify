@@ -403,8 +403,8 @@ module RSpotify
     # @example
     #           albums = RSpotify::Album.search('launeddas')
     #           user.saved_albums?(albums) #=> [true, false, true...]
-    def saved_albums?(albums)
-      albums_ids = albums.map(&:id)
+    def saved_albums?(albums_ids)
+      #albums_ids = albums.map(&:id)
       url = "me/albums/contains?ids=#{albums_ids.join ','}"
       User.oauth_get(@id, url)
     end
