@@ -319,6 +319,8 @@ module RSpotify
         Time.parse added_at
       end
 
+      @total = json['total']
+
       return response if RSpotify.raw_response
       tracks.map { |t| Track.new t['track'] }
     end
