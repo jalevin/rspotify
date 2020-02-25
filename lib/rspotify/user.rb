@@ -393,6 +393,12 @@ module RSpotify
 
       albums = json['items'].select { |i| i['album'] }
 
+      @tracks_added_at = hash_for(albums, 'added_at') do |added_at|
+        Time.parse added_at
+      end
+
+      @total = json['total']
+
       return response if RSpotify.raw_response
       albums.map { |a| Album.new a['album'] }
     end
