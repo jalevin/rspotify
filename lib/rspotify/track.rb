@@ -56,7 +56,7 @@ module RSpotify
 
     # Retrieves the audio features for the track
     def audio_features
-      RSpotify::AudioFeatures.find(@id)
+      @features ||= RSpotify::AudioFeatures.find(@id)
     end
 
     def initialize(options = {})
@@ -73,6 +73,7 @@ module RSpotify
       @played_at         = options['played_at']
       @context_type      = options['context_type']
       @is_playable       = options['is_playable']
+      @features          = nil
 
       @album = if options['album']
         Album.new options['album']
